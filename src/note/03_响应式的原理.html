@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const user = {
+        name: '佐助',
+        age: 20,
+        wife: {
+          name: '小樱',
+          age: 19,
+        },
+      }
+      // 把目标对象变成代理对象
+      // 参数1：target目标对象---user
+      // 参数2：处理器对象---handler,用来监视对象，操作对象
+      const proxyUser = new Proxy(user, {
+        get(target, prop) {
+          console.log('get方法调用了')
+          return Reflect.get(target, prop)
+        },
+        set(target, prop, val) {
+          console.log('set方法调用了')
+          return Reflect.set(target, prop, val)
+        },
+        deleteProperty(target, prop) {
+          console.log('delete方法调用了')
+          return Reflect.deleteProperty(target, prop)
+        },
+      })
+      console.log(proxyUser.name)
+      proxyUser.name = '鸣人'
+      console.log(user.name)
+      delete proxyUser.name
+      console.log(user)
+    </script>
+  </body>
+</html>
